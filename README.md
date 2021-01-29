@@ -1,5 +1,7 @@
-# Example Login Screen with React Native for CHALLENGE DRIXIT
+# Example Login Screen with React Native DRIXIT
 
+You can view the App also by **Expo**.
+Just download the **Expo** application on your cell phone, [click here](https://expo.io/@gustafsilva/example-login-screen-with-react-native-onbbi) and scan the QRCode of the open page in your downloaded application.
 
 ## Getting Started :+1:
 First we'll clone the project:
@@ -31,7 +33,6 @@ Start a development server using the expo.
 ### `npm run lint`
 
 Performs an analysis of all code in mass `./src` with a linter.
-
 ## Main Used Techologies :rocket:
 
 - [React](http://reactjs.org)
