@@ -6,7 +6,7 @@ Just download the **Expo** application on your cell phone, and scan the QRCode o
 ## Getting Started :+1:
 First we'll clone the project:
 ```shell
-$ git clone https://github.com/gustafsilva/example-login-screen-with-react-native.git
+$ git clone https://github.com/tincho22/Example-Login-Screen-with-React-Native-Drixit.git
 ```
 
 Enter the folder of the cloned project, enter its dependencies, and start the development server:
