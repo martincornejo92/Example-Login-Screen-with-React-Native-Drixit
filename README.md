@@ -1,10 +1,5 @@
-# Example Login Screen with React Native
+# Example Login Screen with React Native for CHALLENGE DRIXIT
 
-Login screen for Android and iOS using React Native. The layout was inspired by [Onbbi v9 Tomer](https://www.sketchappsources.com/free-source/3909-concept-game-app-sketch-freebie-resource.html).
-
-
-You can view the App also by **Expo**.
-Just download the **Expo** application on your cell phone, [click here](https://expo.io/@gustafsilva/example-login-screen-with-react-native-onbbi) and scan the QRCode of the open page in your downloaded application.
 
 ## Getting Started :+1:
 First we'll clone the project:
@@ -36,7 +31,6 @@ Start a development server using the expo.
 ### `npm run lint`
 
 Performs an analysis of all code in mass `./src` with a linter.
-Standard used in the project is **Airbnb**, more information [click here](https://github.com/airbnb/javascript).
 
 ## Main Used Techologies :rocket:
 
@@ -45,6 +39,3 @@ Standard used in the project is **Airbnb**, more information [click here](https:
 - [styled-components](http://styled-components.com/)
 - [Expo](https://expo.io/)
 - [ESlint](https://eslint.org/)
-
-## License
-The contents of this repository are covered under the [MIT License](./LICENSE).
