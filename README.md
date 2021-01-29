@@ -1,7 +1,7 @@
 # Example Login Screen with React Native DRIXIT
 
 You can view the App also by **Expo**.
-Just download the **Expo** application on your cell phone, [click here](https://expo.io/@gustafsilva/example-login-screen-with-react-native-onbbi) and scan the QRCode of the open page in your downloaded application.
+Just download the **Expo** application on your cell phone, and scan the QRCode of the open page in your downloaded application.
 
 ## Getting Started :+1:
 First we'll clone the project:
