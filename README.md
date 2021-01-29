@@ -11,7 +11,7 @@ $ git clone https://github.com/tincho22/Example-Login-Screen-with-React-Native-D
 
 Enter the folder of the cloned project, enter its dependencies, and start the development server:
 ```shell
-$ cd example-login-screen-with-react-native/
+$ cd Example-Login-Screen-with-React-Native-Drixit
 $ npm install
 $ npm start
 ```
