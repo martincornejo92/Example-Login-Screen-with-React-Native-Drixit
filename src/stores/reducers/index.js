@@ -1,7 +1,9 @@
 import {
-  TOKEN_LOADING,
+  SAVE_TOKEN,
   ON_APP_LOADING_FINISH,
 } from '../actions';
+
+import { combineReducers } from 'redux';
 
 const initialState = {
   loading: false,
@@ -11,7 +13,7 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TOKEN_LOADING: {
+    case SAVE_TOKEN: {
       return { ...state, token: action.payload };
     }
     case ON_APP_LOADING_FINISH: {
@@ -22,4 +24,9 @@ const rootReducer = (state = initialState, action) => {
   }
 };
 
-export default rootReducer;
+const reducers = {
+  rootReducer,
+};
+const allReducers = combineReducers(reducers);
+
+export default allReducers;

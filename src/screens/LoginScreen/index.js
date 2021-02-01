@@ -11,17 +11,23 @@ import {
 } from './styled';
 import Box from '../../components/Box';
 import Button from '../../components/Button';
-import user from '../../utils/user.ts';
+import saveToken from '../../stores/actions';
 
 const logoSource = require('../../../assets/logo.png');
 const loginImageSource = require('../../../assets/images/login-image.png');
 
-// const mapStateToProps = (state) => {
-//   const { rootReducer } = state;
-//   return {
-//     tokenUse: rootReducer.token,
-//   };
-// };
+const mapStateToProps = (state) => {
+  const { rootReducer } = state;
+  return {
+    tokenUse: rootReducer.token,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    saveToken: (token) => dispatch(saveToken(token)),
+  }
+);
 
 class LoginScreen extends Component {
   state = {
@@ -29,6 +35,7 @@ class LoginScreen extends Component {
     imageShow: true,
     username: '',
     password: '',
+    token: null,
   };
 
   componentWillUnmount() {
@@ -60,17 +67,31 @@ class LoginScreen extends Component {
     return navigate(route, params);
   }
 
-  continue = () => {
-    const { username, password, token } = this.state;
+   callApi = async () =>  {
+     const {tokenUse,saveToken} = this.props;
+    fetch('http://localhost:3001/api/signin', {
+      method: 'POST',
+      params:{
+        email: this.state.username,
+      }
+   })
+   .then((response) => response.json())
+   .then((responseJson) => {
+    console.log("response:", responseJson)
+      saveToken(responseJson.token);
+      console.log("tokenUse:". tokenUse);
+      if(tokenUse !== null){
+        this.navigate('HomeScreen');
+        }
+   })
+   .catch((error) => {
+      console.error(error);
+   });
+  }
 
-    // eslint-disable-next-line no-console
-    console.log(`username: ${username} password: ${password}`);
-    //console.log(`usernameBACK: ${user}`);
-    this.navigate('HomeScreen');
-    // if ((username === users[0].email || users[1].email)
-    // && (password === users[0].password || users[1].password)) {
-    //   this.navigate('HomeScreen');
-    // }
+  continue = async () => {
+    const { username, password } = this.state;
+    await this.callApi();
   };
 
   render() {
@@ -117,4 +138,4 @@ LoginScreen.defaultProps = {
 };
 
 // export default connect(mapStateToProps)(LoginScreen);
-export default LoginScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
