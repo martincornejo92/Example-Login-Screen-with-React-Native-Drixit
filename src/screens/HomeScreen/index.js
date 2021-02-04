@@ -14,6 +14,8 @@ import {
 import Email from '../../components/Email';
 import Separator from '../../components/Separator';
 import Button from '../../components/Button';
+import { connect } from 'react-redux';
+import { saveToken } from '../../stores/actions';
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -115,6 +117,19 @@ const users = [{
   role: 'user'
 }];
 
+const mapDispatchToProps = (dispatch) => (
+  {
+    saveTokens: (action) => dispatch(saveToken(action)),
+  }
+);
+
+const mapStateToProps = (state) => {
+  const { rootReducer } = state;
+  return {
+    tokenUse: rootReducer.token,
+  };
+};
+
 class HomeScreen extends Component {
   onPressPlace = () => {
     console.log('place');
@@ -172,10 +187,15 @@ class HomeScreen extends Component {
   }
 
   close = () => {
+    const {saveTokens, tokenUse} = this.props;
+    console.log("tokenUseHome", tokenUse)
+    saveTokens(null);
     this.navigate('LoginScreen');
   }
 
   render() {
+    const {saveTokens, tokenUse} = this.props;
+    console.log("tokenUseHome", tokenUse)
     return (
       <ScrollView style={styles.scroll}>
         <View style={styles.container}>
@@ -193,4 +213,4 @@ class HomeScreen extends Component {
   }
 }
 
-export default HomeScreen;
+export default connect(mapStateToProps,mapDispatchToProps)(HomeScreen);
