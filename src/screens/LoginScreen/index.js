@@ -82,18 +82,24 @@ class LoginScreen extends Component {
   }
 
   async getUser(){
-    const {saveUsers} = this.props;
-     await fetch('http://localhost:3001/api/getuser', {
+    const {saveUsers, tokenUse} = this.props;
+     await fetch('http://localhost:8000/users', {
       method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': tokenUse,
+        },
       params:{
         email: this.state.username,
+        password: this.state.password
       }
    })
    .then((response) => response.json())
     .then((responseJson) => {
     console.log("responseUser:", responseJson)
-    saveUsers(responseJson.user);
-      if(responseJson.user !== undefined){
+    saveUsers(responseJson);
+      if(responseJson !== undefined){
 
         this.navigate('HomeScreen');
         }
@@ -121,11 +127,8 @@ class LoginScreen extends Component {
     console.log("response:", responseJson)
     saveTokens(responseJson.access_token);
     this.setState({ message : responseJson.message });
-     //this.getUser();
-     if(responseJson.access_token !== undefined){
-
-      this.navigate('HomeScreen');
-      }
+    if(responseJson.access_token !== undefined)
+     this.getUser();
    })
    .catch((error) => {
       console.error(error);
