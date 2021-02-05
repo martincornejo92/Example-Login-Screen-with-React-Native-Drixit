@@ -92,30 +92,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    marginTop: '100%',
+    marginTop: '60%',
     marginBottom: '20%',
+    marginLeft: '10%',
+    marginRight: '10%',
   },
 });
-
-const users = [{
-  id: 'it-drixit-1',
-  avatar: 'https://toppng.com/uploads/preview/roger-berry-avatar-placeholder-11562991561rbrfzlng6h.png',
-  email: 'it@drixit.com',
-  password: 'some-password',
-  name: 'IT',
-  surname: 'Drixit',
-  age: 25,
-  role: 'admin'
-}, {
-  id: 'info-drixit-2',
-  avatar: 'https://toppng.com/uploads/preview/roger-berry-avatar-placeholder-11562991561rbrfzlng6h.png',
-  email: 'info@drixit.com',
-  password: 'other-password',
-  name: 'Info',
-  surname: 'Drixit',
-  age: 30,
-  role: 'user'
-}];
 
 const mapDispatchToProps = (dispatch) => (
   {
@@ -127,6 +109,7 @@ const mapStateToProps = (state) => {
   const { rootReducer } = state;
   return {
     tokenUse: rootReducer.token,
+    userData: rootReducer.user,
   };
 };
 
@@ -147,7 +130,7 @@ class HomeScreen extends Component {
     Linking.openURL(`mailto://${email}?subject=subject&body=body`).catch(err => console.log('Error:', err));
   }
 
-  renderHeader = () => (
+  renderHeader = (name,surname,avatar) => (
     <View style={styles.headerContainer}>
       <ImageBackground
         style={styles.headerBackgroundImage}
@@ -156,14 +139,14 @@ class HomeScreen extends Component {
         <View style={styles.headerColumn}>
           <Image
             style={styles.userImage}
-            source={{ uri: users[0].avatar }}
+            source={{ uri: avatar }}
           />
           <View style={styles.userAddressRow}>
             <View style={styles.userCityRow}>
               <Text style={styles.userCityText}>
-                {users[0].name}
+                {name}
                 ,
-                {users[0].surname}
+                {surname}
               </Text>
             </View>
           </View>
@@ -172,11 +155,11 @@ class HomeScreen extends Component {
     </View>
   )
 
-  renderEmail = () => (
+  renderEmail = (email, role,id) => (
     <Email
-      key={`email-${users[0].id}`}
-      name={users[0].role}
-      email={users[0].email}
+      key={`email-${id}`}
+      name={role}
+      email={email}
       onPressEmail={this.onPressEmail}
     />
   )
@@ -194,15 +177,14 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const {saveTokens, tokenUse} = this.props;
-    console.log("tokenUseHome", tokenUse)
+    const {saveTokens, tokenUse, userData} = this.props;
     return (
       <ScrollView style={styles.scroll}>
         <View style={styles.container}>
           <Card containerStyle={styles.cardContainer}>
-            {this.renderHeader()}
+            {this.renderHeader(userData[0].name,userData[0].surname,userData[0].avatar)}
             {Separator()}
-            {this.renderEmail()}
+            {this.renderEmail(userData[0].email,userData[0].role,userData[0].id)}
           </Card>
         </View>
         <View style={styles.button}>

@@ -83,17 +83,15 @@ class LoginScreen extends Component {
 
   async getUser(){
     const {saveUsers, tokenUse} = this.props;
-     await fetch('http://localhost:8000/users', {
+     await fetch('http://localhost:8000/users'+'?email='+this.state.username+'&password='+this.state.password, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': tokenUse,
+        'Authorization': 'Bearer '+this.state.token,
         },
-      params:{
-        email: this.state.username,
-        password: this.state.password
-      }
+        params:({
+          email: this.state.username,
+          password: this.state.password
+     })
    })
    .then((response) => response.json())
     .then((responseJson) => {
@@ -126,7 +124,7 @@ class LoginScreen extends Component {
    .then((responseJson) => {
     console.log("response:", responseJson)
     saveTokens(responseJson.access_token);
-    this.setState({ message : responseJson.message });
+    this.setState({ message : responseJson.message, token : responseJson.access_token });
     if(responseJson.access_token !== undefined)
      this.getUser();
    })
