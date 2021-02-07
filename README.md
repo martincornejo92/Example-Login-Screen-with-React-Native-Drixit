@@ -3,6 +3,16 @@
 You can view the App also by **Expo**.
 Just download the **Expo** application on your cell phone, and scan the QRCode of the open page in your downloaded application.
 
+## API Getting Started :+1:
+```shell
+git clone https://github.com/tincho22/Api-Auth-Drixit-New.git
+```
+& run:
+
+```shell
+npm run start-auth
+```
+
 ## Getting Started :+1:
 First we'll clone the project:
 ```shell
@@ -15,10 +25,6 @@ $ cd Example-Login-Screen-with-React-Native-Drixit
 $ npm install
 $ npm start
 ```
-
-A screen in your browser will open, you can open the App in an android or ios emulator.
-Or scan the QR Code using the Expo Application directly on your celebrular.
-
 ## Dependencies
 - [node](https://nodejs.org/en/)
 - [expo-cli](https://expo.io/learn)
@@ -31,12 +37,3 @@ In the project directory, you can run:
 Start a development server using the expo.
 
 ### `npm run lint`
-
-Performs an analysis of all code in mass `./src` with a linter.
-## Main Used Techologies :rocket:
-
-- [React](http://reactjs.org)
-- [React Native](https://facebook.github.io/react-native/)
-- [styled-components](http://styled-components.com/)
-- [Expo](https://expo.io/)
-- [ESlint](https://eslint.org/)
