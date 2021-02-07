@@ -17,7 +17,8 @@ import {saveToken, onUserData} from '../../stores/actions';
 import { TextInput } from 'react-native-gesture-handler';
 
 const logoSource = require('../../../assets/logo.png');
-const loginImageSource = require('../../../assets/images/login-image.png');
+const loginImageSource = require('../../../assets/icon.png');
+import * as SecureStore from 'expo-secure-store';
 
 const mapStateToProps = (state) => {
   const { rootReducer } = state;
@@ -45,12 +46,8 @@ class LoginScreen extends Component {
   };
 
   componentDidMount(){
-    const { tokenUse } = this.props;
-    console.log("tokenuUSE:",tokenUse);
-    if (tokenUse !== null){
-      this.navigate('HomeScreen');
+    this.didGetUser();
     }
-  }
 
   componentWillUnmount() {
     if (this.timoutImageShow !== undefined) {
@@ -81,6 +78,35 @@ class LoginScreen extends Component {
     return navigate(route, params);
   }
 
+  async didGetUser(){
+    let resultToken = await SecureStore.getItemAsync('tokens');
+    let resultMail = await SecureStore.getItemAsync('email');
+    let resultPassword = await SecureStore.getItemAsync('password');
+    if(resultToken === '')
+    return
+    const {saveUsers, tokenUse} = this.props;
+     await fetch('http://localhost:8000/users'+'?email='+resultMail+'&password='+resultPassword, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer '+resultToken,
+        },
+        params:({
+          email: resultMail,
+          password: resultPassword
+     })
+   })
+   .then((response) => response.json())
+    .then((responseJson) => {
+    saveUsers(responseJson);
+      if(responseJson !== null){
+        this.navigate('HomeScreen');
+        }
+   })
+   .catch((error) => {
+      e.error(error);
+   });
+  }
+
   async getUser(){
     const {saveUsers, tokenUse} = this.props;
      await fetch('http://localhost:8000/users'+'?email='+this.state.username+'&password='+this.state.password, {
@@ -95,10 +121,8 @@ class LoginScreen extends Component {
    })
    .then((response) => response.json())
     .then((responseJson) => {
-    console.log("responseUser:", responseJson)
     saveUsers(responseJson);
       if(responseJson !== undefined){
-
         this.navigate('HomeScreen');
         }
    })
@@ -106,6 +130,20 @@ class LoginScreen extends Component {
       console.error(error);
    });
   }
+
+  _saveUserEmail = async () => {
+    await SecureStore.setItemAsync('email', this.state.username);
+  };
+
+  _saveUserPassword = async () => {
+    await SecureStore.setItemAsync('password', this.state.password);
+  };
+
+  _saveToken = async () => {
+    await SecureStore.setItemAsync('tokens', this.state.token);
+    alert('saved Token!')
+  };
+
 
    async getToken() {
      const {saveTokens} = this.props;
@@ -122,10 +160,12 @@ class LoginScreen extends Component {
   })
    .then((response) => response.json())
    .then((responseJson) => {
-    console.log("response:", responseJson)
     saveTokens(responseJson.access_token);
     this.setState({ message : responseJson.message, token : responseJson.access_token });
     if(responseJson.access_token !== undefined)
+    this._saveUserEmail();
+    this._saveUserPassword();
+    this._saveToken();
      this.getUser();
    })
    .catch((error) => {
@@ -155,6 +195,7 @@ class LoginScreen extends Component {
               value={username}
               RightIconInput
               onChangeText={this.changeUsername}
+              autoCapitalize='none'
             />
              {this.state.username  !== null ? (<Input
               placeholder="Password"

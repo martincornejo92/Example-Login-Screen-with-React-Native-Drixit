@@ -16,6 +16,7 @@ import Separator from '../../components/Separator';
 import Button from '../../components/Button';
 import { connect } from 'react-redux';
 import { saveToken } from '../../stores/actions';
+import * as SecureStore from 'expo-secure-store';
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => (
   {
     saveTokens: (action) => dispatch(saveToken(action)),
+    saveUsers: (action) =>  dispatch(onUserData(action)),
   }
 );
 
@@ -114,16 +116,7 @@ const mapStateToProps = (state) => {
 };
 
 class HomeScreen extends Component {
-  onPressPlace = () => {
-    console.log('place');
-  }
-
-  onPressTel = (number) => {
-    Linking.openURL(`tel://${number}`).catch(err => console.log('Error:', err));
-  }
-
-  onPressSms = () => {
-    console.log('sms');
+  componentDidMount(){
   }
 
   onPressEmail = (email) => {
@@ -169,12 +162,15 @@ class HomeScreen extends Component {
     return navigate(route, params);
   }
 
-  close = () => {
+
+  _close = async () => {
     const {saveTokens, tokenUse} = this.props;
-    console.log("tokenUseHome", tokenUse)
     saveTokens(null);
+    await SecureStore.setItemAsync('email', '');
+    await SecureStore.setItemAsync('password', '');
+    await SecureStore.setItemAsync('tokens', '');
     this.navigate('LoginScreen');
-  }
+  };
 
   render() {
     const {saveTokens, tokenUse, userData} = this.props;
@@ -188,7 +184,7 @@ class HomeScreen extends Component {
           </Card>
         </View>
         <View style={styles.button}>
-          <Button onPress={this.close}>Sign Out</Button>
+          <Button onPress={this._close}>Sign Out</Button>
         </View>
       </ScrollView>
     );
